@@ -6,6 +6,7 @@ Usages
 ===================
 
 Backend
+
 	1. After installing the plugin, you will find a Post Adv menu under Settngs
 	2. The settings page has basic settings like
 		a. textarea for adding script.
@@ -15,6 +16,7 @@ Backend
 	in the setting page.
 
 Frontend
+
 	1. Shortcode: To use in the fronend, you have to add [postadv] shortcode in the editor.
 	2. Parameters: There are few paramteres that can be used according to your requirement
 		a. [postadv latecny="on/off"]
