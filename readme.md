@@ -1,15 +1,26 @@
 Intallation Note
 ===================
-1. Please install the plugin just like any other plugins in WordPress.
-
+1. Download and copy paste the files in the plugin folder of your WordPress.
 
 Usages
 ===================
-1. After installing the plugin, you will find a textarea meta box "Post Adv" at the sidebar before Featured Image.
-2. If you want to add the Adsensce script per post then you can add it there. This also is prioritized one. Which means the script of here is used in the shortcode.
-3. If you don't want to add the Adsense in each post. Then you can create a page (of any name) and use that page id in the plugin shortcode. Paste the Adsense code in the editor as page content.
 
-Case 1:
-If you add a script in the meta box, then you can use [postadv]
-Case 2: 
-If you do not add a script in the meta box of post then use the shortcode [postadv page="page id"], "page id" is the id of page you've created in above step #3.
+	Backend
+		1. After installing the plugin, you will find a Post Adv menu under Settngs
+		2. The settings page has basic settings like
+			a. textarea for adding script.
+			b. enabling/disabling latency
+			c. if enabled, num field to add days in number
+		3. It also adds a meta box in each post for adding script. This has higher priority than the one in the setting page.
+
+	Frontend
+		1. Shotrcode: To use in the fronend, you have to add [postadv] shortcode in the editor.
+		2. Parameters: There are few paramteres that can be used according to your requirement
+			a. [postadv latecny="on/off"]
+			b. [postadv latency="on" latency_day="n"], where n is the integer 1,2,3, ......n
+			Note: Use these options only if you want to override the ones from the settings page. 
+
+Notes
+====================
+1. Disabling latency means, the AdSense will simply display without any condition where the shortcode is used. 
+1. Enabling latency means, the AdSense will dispaly on the day defined as "latecny day" from the day the post was published.
