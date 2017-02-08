@@ -5,21 +5,21 @@ Intallation Note
 Usages
 ===================
 
-	Backend
-		1. After installing the plugin, you will find a Post Adv menu under Settngs
-		2. The settings page has basic settings like
-			a. textarea for adding script.
-			b. enabling/disabling latency
-			c. if enabled, num field to add days in number
-		3. It also adds a meta box in each post for adding script. This has higher priority than the one
-		in the setting page.
+Backend
+	1. After installing the plugin, you will find a Post Adv menu under Settngs
+	2. The settings page has basic settings like
+		a. textarea for adding script.
+		b. enabling/disabling latency
+		c. if enabled, num field to add days in number
+	3. It also adds a meta box in each post for adding script. This has higher priority than the one
+	in the setting page.
 
-	Frontend
-		1. Shotrcode: To use in the fronend, you have to add [postadv] shortcode in the editor.
-		2. Parameters: There are few paramteres that can be used according to your requirement
-			a. [postadv latecny="on/off"]
-			b. [postadv latency="on" latency_day="n"], where n is the integer 1,2,3, ......n
-			Note: Use these options only if you want to override the ones from the settings page. 
+Frontend
+	1. Shortcode: To use in the fronend, you have to add [postadv] shortcode in the editor.
+	2. Parameters: There are few paramteres that can be used according to your requirement
+		a. [postadv latecny="on/off"]
+		b. [postadv latency="on" latency_day="n"], where n is the integer 1,2,3, ......n
+		Note: Use these options only if you want to override the ones from the settings page. 
 
 Notes
 ====================
