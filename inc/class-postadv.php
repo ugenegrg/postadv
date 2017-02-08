@@ -91,7 +91,6 @@ class Postadv {
 	function pa_render_adv( $atts ) {
 
 		$a = shortcode_atts( array (
-			'page' => 0,
 			'latency' => get_option( '_pa_latency' ),
 			'latency_day' => get_option( '_pa_latency_day' ) 
 			), $atts );
@@ -102,20 +101,12 @@ class Postadv {
 		global $post;
 		$postadv = get_post_meta( $post->ID, 'postadvdiv', true );
 
-		// if the single post is empty/not used for google adsense
+		// if the post has no AdSense script
 		if( $postadv == "" ) {
 			
-			if( $a['page'] ) {
-
-				$page = get_post( $a['page'] );
-				$postadv = apply_filters( 'the_content', $page->post_content );
-
-			} else {
-
-				// if the page is not used for adsense
-				if( $postadv == "" ) {
-					$postadv = get_option( '_pa_script' );
-				}
+			// use the script form the settings page
+			if( $postadv == "" ) {
+				$postadv = get_option( '_pa_script' );
 			}
 		} 
 
