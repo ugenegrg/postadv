@@ -23,4 +23,4 @@ Usages
 Notes
 ====================
 1. Disabling latency means, the AdSense will simply display without any condition where the shortcode is used. 
-1. Enabling latency means, the AdSense will dispaly on the day defined as "latecny day" from the day the post was published.
+1. Enabling latency means, the AdSense will dispaly on the defined latecny day from the day the post was published.
