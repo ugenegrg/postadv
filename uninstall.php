@@ -5,11 +5,11 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // delete options
-delete_option( '_pa_script' );
-delete_option( '_pa_latency' );
-delete_option( '_pa_latency_day' );
+delete_option( 'postadv_opt_script' );
+delete_option( 'postadv_opt_latency' );
+delete_option( 'postadv_opt_latency_day' );
  
 // deleta all meta keys nd values from post meta the plugin has created.
 global $wpdb;
-$wpdb->delete( $wpdb->prefix . 'postmeta', array( 'meta_key' => 'postadvdiv' ) );
+$wpdb->delete( $wpdb->prefix . 'postmeta', array( 'meta_key' => 'postadv_meta_script' ) );
 

@@ -8,34 +8,33 @@ class Postadv {
 
 		if( is_admin() ) {
 
-			add_action( 'admin_menu', array( $this, 'pa_create_option_menu' ) );
+			add_action( 'admin_menu', array( $this, 'postadv_create_option_menu' ) );
 
-			// add_action( 'add_meta_boxes', 'Postadv::pa_add_metabox', 10, 2 );
-			add_action( 'add_meta_boxes', array( $this, 'pa_add_metabox' ), 10, 2 );
-			add_action( 'save_post', array( $this, 'pa_save_metabox' ), 10, 2 );
+			add_action( 'add_meta_boxes', array( $this, 'postadv_add_metabox' ), 10, 2 );
+			add_action( 'save_post', array( $this, 'postadv_save_metabox' ), 10, 2 );
 		}
 
-		add_shortcode( 'postadv', array( $this, 'pa_render_adv' ));
+		add_shortcode( 'postadv', array( $this, 'postadv_render_adv' ));
 	}
 
 	/**
 	 * Add submenu under settings menu
 	 */
-	public function pa_create_option_menu() {
+	public function postadv_create_option_menu() {
 				
 		add_options_page(
 			__( 'Postadv Settings', 'postadv' ),
 			__( 'Postadv', 'postadv'),
 			'manage_options',
 			'postadv.php',
-			array( $this, 'pa_display_admin_page' )
+			array( $this, 'postadv_display_admin_page' )
 		);
 	}
 
 	/**
 	 * Display postadv admin settings
 	 */
-	public function pa_display_admin_page() {
+	public function postadv_display_admin_page() {
 
 		require_once( POSTADV_PLUGIN_DIR_PATH . '/view/admin-settings.php' );
 	}
@@ -43,29 +42,28 @@ class Postadv {
 	/**
 	 * Add, render and save meta box
 	 */
-	public function pa_add_metabox( $post_type, $post ) {
-
-		// add_meta_box( $id, $title, $callback, $screen, $context, $priority, $callback_args );
-		add_meta_box( 'postadvdiv', __( 'Post Adv.', 'postadv' ), array( $this, 'pa_render_adv_textarea' ), $post_type, 'side' );
+	public function postadv_add_metabox( $post_type, $post ) {
+		
+		add_meta_box( 'postadv_script_metabox', __( 'Postadv.', 'postadv' ), array( $this, 'postadv_render_script_metabox' ), $post_type, 'side' );
 	}
 
-	public function pa_render_adv_textarea( $post ) { 
+	public function postadv_render_script_metabox( $post ) { 
 
-		wp_nonce_field( basename( __FILE__ ), '_panonce' );
-		$postadv = get_post_meta( $post->ID, 'postadvdiv', true );
-
+		wp_nonce_field( 'postadv_postedit', 'postadv_postedit_nonce' );
+		$postadv_meta_script = get_post_meta( $post->ID, 'postadv_meta_script', true );
+		
 		?>
 		<p>If you want to have different adv. per post than add your script here else leave empty.</p>
-		<textarea name="pa_ip_adv" rows="5" style="width: 100%;"><?php echo $postadv; ?></textarea>
+		<textarea name="postadv_ip_adv" rows="5" style="width: 100%;"><?php echo $postadv_meta_script; ?></textarea>
 
 	<?php 
 	}
 
-	function pa_save_metabox( $post_id, $post ) {
+	function postadv_save_metabox( $post_id, $post ) {
 
 		// Verify this came from the our screen and with proper authorization,
 		// because save_post can be triggered at other times
-		if ( !wp_verify_nonce( $_POST['_panonce'], basename( __FILE__ ) ))
+		if ( !wp_verify_nonce( $_POST['postadv_postedit_nonce'], 'postadv_postedit' ) )
 			return $post_id;
 
 		// Verify if this is an auto save routine. If it is our form has not been submitted, we dont want to do anything
@@ -79,20 +77,20 @@ class Postadv {
 		} 
 		
 		// OK, we're authenticated: we need to find and save the data
-		$value = $_POST['pa_ip_adv'];
+		$value = htmlentities( trim( $_POST['postadv_ip_adv'] ) );
 
 		// save data
-		update_post_meta( $post_id, 'postadvdiv', $value ); 
+		update_post_meta( $post_id, 'postadv_meta_script', $value ); 
 	}
 
 	/**
 	 * Shortcode
 	 */
-	function pa_render_adv( $atts ) {
+	function postadv_render_adv( $atts ) {
 
 		$a = shortcode_atts( array (
-			'latency' => get_option( '_pa_latency' ),
-			'latency_day' => get_option( '_pa_latency_day' ) 
+			'latency' => get_option( 'postadv_opt_latency' ),
+			'latency_day' => get_option( 'postadv_opt_latency_day' ) 
 			), $atts );
 
 		ob_start();
@@ -101,20 +99,14 @@ class Postadv {
 		global $post;
 		$postadv = get_post_meta( $post->ID, 'postadvdiv', true );
 
-		// if the post has no AdSense script
-		if( $postadv == "" ) {
-			
-			// use the script form the settings page
-			if( $postadv == "" ) {
-				$postadv = get_option( '_pa_script' );
-			}
-		} 
-
-		if( $postadv != "" ) {
+		// if the post has no AdSense script, use the script form the settings page
+		$postadv = ( $postadv == "" ) ? get_option( 'postadv_opt_script' ) : '';
+		
+		if( !empty( $postadv ) ) {
 
 			// now lets check the latency
 			// if latecny is on
-			if( $a['latency'] == 'on' ) {
+			if( "on" == $a['latency'] ) {
 
 				$latency_day = "+{$a['latency_day']} days";
 				
@@ -131,7 +123,7 @@ class Postadv {
 				if( $days_passed > $a['latency_day'] ) {
 
 					echo '<div class="postadv-wrapper" style="text-align:center;">';
-					echo stripcslashes( $postadv );
+					echo html_entity_decode( $postadv );
 					echo '</div>';
 
 				} else {
@@ -142,25 +134,11 @@ class Postadv {
 
 				// else show directly
 				echo '<div class="postadv-wrapper" style="text-align:center;">';
-				echo stripcslashes( $postadv );
+				echo html_entity_decode( $postadv );
 				echo '</div>';
 
 			}
 			return ob_get_clean();
 		}
-	}
-
-	/**
-	 * Sanitization process
-	 */
-	public function pa_sanitize( $val ) {
-
-		// trim whitespaces before and after the value
-		$val = trim( $val );
-
-		// remove any slashes from PHP's magic quotes
-		$val = wp_unslash( $_POST[ 'pa_ip_script' ] );
-
-		return $val;
 	}
 }

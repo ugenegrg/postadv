@@ -7,7 +7,7 @@ Usages
 
 Backend
 
-	1. After installing the plugin, you will find a Post Adv menu under Settngs
+	1. After installing the plugin, you will find a Postadv menu under Settngs
 	2. The page has basic settings like
 		a. textarea for adding script.
 		b. enabling/disabling latency
