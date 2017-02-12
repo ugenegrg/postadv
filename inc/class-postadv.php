@@ -77,7 +77,7 @@ class Postadv {
 		} 
 		
 		// OK, we're authenticated: we need to find and save the data
-		$value = htmlentities( trim( $_POST['postadv_ip_adv'] ) );
+		$value = $this->postadv_sanitize_script( $_POST['postadv_ip_adv'] );
 
 		// save data
 		update_post_meta( $post_id, 'postadv_meta_script', $value ); 
@@ -140,5 +140,30 @@ class Postadv {
 			}
 			return ob_get_clean();
 		}
+	}
+
+	/**
+	 * sanitizes the script valuse
+	 * can be extended for other inputs in future
+	 */
+	public function postadv_sanitize_script( $string ) {
+
+		$allowed_html = array(
+			"ins" => array(
+				"class"	=> array(),
+				"style"	=> array(),
+				"data-ad-client" => array(),
+				"data-ad-slot" => array(),
+			),
+			"script" => array(
+				"async" => array(),
+				"src" => array(),
+				"type" => array(),
+				"data-id" => array(),
+				"data-format"=> array()
+			)
+		); 
+		return htmlentities( wp_kses( trim( $string ), $allowed_html ) );
+		// return htmlentities( wp_kses( stripslashes( trim( $string ) ), $allowed_html ) );
 	}
 }

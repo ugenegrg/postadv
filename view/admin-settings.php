@@ -10,12 +10,12 @@
 
 			// if verified - validate, sanitize and save/update option
 
-			$postadv_val_script 		 = htmlentities( stripslashes( trim( $_POST[ 'postadv_ip_script' ] ) ) );
-
-			if( !current_user_can( 'unfiltered_html' ) )
-				$postadv_val_script      = wp_kses_post( $postadv_val_script );
+			if( !empty( $_POST[ 'postadv_ip_script' ] ) ) {
+				$postadv_val_script 	= Postadv::postadv_sanitize_script( $_POST[ 'postadv_ip_script' ] );
+			} else {
+				$postadv_val_script 	= '';
+			}		
 			
-
 			if( isset( $_POST['postadv_ip_latency'] ) ) {
 
 				$postadv_val_latency 	 = 'on';
