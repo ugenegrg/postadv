@@ -122,7 +122,7 @@ class Postadv {
 								
 				if( $diff > $a['latency_day'] ) {
 
-					echo '<div class="postadv-wrapper" style="text-align:center;">';
+					echo '<div class="postadv-wrapper">';
 					echo html_entity_decode( $postadv );
 					echo '</div>';
 
@@ -133,7 +133,7 @@ class Postadv {
 			} else {
 
 				// else show directly
-				echo '<div class="postadv-wrapper" style="text-align:center;">';
+				echo '<div class="postadv-wrapper">';
 				echo html_entity_decode( $postadv );
 				echo '</div>';
 

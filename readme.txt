@@ -3,8 +3,8 @@ Contributors: ugene, sachyya-sachet
 Donate link: #
 Tags: Google Adsense, google, plugin, adsense, insert adsense, adsense ad, ad code, adsense shortcode, insert ad, ads, adsense plugin, advertising
 Requires at least: 4.5
-Tested up to: 4.7.2
-Stable tag: 1.0.0
+Tested up to: 4.7.4
+Stable tag: 1.0.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -34,6 +34,7 @@ Frontend
 = Notes =
 1. Disabling latency means, the AdSense will simply display without any condition where the shortcode is used. 
 2. Enabling latency means, the AdSense will dispaly on the defined latency day from the day the post was published.
+3. Enabling or tickmarking the MCU option will disable all shortcode at once. No need to manually go and remove the shortcode used in hundreds of posts.
 
 
 == Installation ==
