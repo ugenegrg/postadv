@@ -60,10 +60,10 @@ class Postadv {
 	}
 
 	function postadv_save_metabox( $post_id, $post ) {
-
+		
 		// Verify this came from the our screen and with proper authorization,
 		// because save_post can be triggered at other times
-		if ( !wp_verify_nonce( $_POST['postadv_postedit_nonce'], 'postadv_postedit' ) )
+		if ( !isset( $_POST['postadv_postedit_nonce'] ) || !wp_verify_nonce( $_POST['postadv_postedit_nonce'], 'postadv_postedit' ) )
 			return $post_id;
 
 		// Verify if this is an auto save routine. If it is our form has not been submitted, we dont want to do anything
@@ -95,32 +95,32 @@ class Postadv {
 
 		ob_start();
 
-		// first check if the post has ad sense code
+		// first check if the MCU box is checked to disable the shortcode
+		// if checked to stop all shortcode then no need to go down, return 
+		if( 'on' === get_option( 'postadv_opt_mcu' ) )
+			return;
+
+		// second check if the post has adsense code as meta
 		global $post;
-		$postadv = get_post_meta( $post->ID, 'postadvdiv', true );
+		$postadv = get_post_meta( $post->ID, 'postadv_meta_script', true );
 
 		// if the post has no AdSense script, use the script form the settings page
-		$postadv = ( $postadv == "" ) ? get_option( 'postadv_opt_script' ) : '';
+		$postadv = ( "" == $postadv ) ? get_option( 'postadv_opt_script' ) : $postadv ;
 		
 		if( !empty( $postadv ) ) {
 
 			// now lets check the latency
 			// if latecny is on
 			if( "on" == $a['latency'] ) {
-
-				$latency_day = "+{$a['latency_day']} days";
 				
-				$published_day =  date( 'Y-m-d', strtotime( $post->post_date ) );
-				$published_day_string = strtotime( $published_day );
+				$published_day = $post->post_date;
 				
-				// add latency day + published date
-				$latency_date_string = strtotime( $latency_day, $published_day_string );
+				$date1 = new DateTime( $post->post_date );
+				$date2 = new DateTime( date( 'Y-m-d H:i:s') );
 				
-				$today_date_string = strtotime( date( 'Y-m-d' ) );
-
-				$days_passed = date( 'j', $today_date_string - $published_day_string );
-
-				if( $days_passed > $a['latency_day'] ) {
+				$diff = $date2->diff($date1)->format("%a");
+								
+				if( $diff > $a['latency_day'] ) {
 
 					echo '<div class="postadv-wrapper" style="text-align:center;">';
 					echo html_entity_decode( $postadv );
@@ -143,7 +143,7 @@ class Postadv {
 	}
 
 	/**
-	 * sanitizes the script valuse
+	 * sanitizes the script values
 	 * can be extended for other inputs in future
 	 */
 	public function postadv_sanitize_script( $string ) {

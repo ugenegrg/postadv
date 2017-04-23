@@ -1,6 +1,6 @@
 <?php
 	if( $_POST ) {
-				
+						
 		// bail early if nonce is not verified
 		if( ! wp_verify_nonce( $_POST['postadv_adminset_nonce'], 'postadv_adminset' ) ) {
 
@@ -28,10 +28,17 @@
 				$postadv_val_latency 	 = 'off';
 				$postadv_val_latency_day = 1;
 			}
+
+			if( isset( $_POST['postadv_ip_mcu'] ) ) {
+				$postadv_val_mcu 		= 'on';
+			} else {
+				$postadv_val_mcu 		= 'off';
+			}
+
 			update_option( 'postadv_opt_script', $postadv_val_script );
 			update_option( 'postadv_opt_latency', $postadv_val_latency );
 			update_option( 'postadv_opt_latency_day', $postadv_val_latency_day );
-
+			update_option( 'postadv_opt_mcu', $postadv_val_mcu );
 			echo '<div class="notice notice-success is-dismissible"><p>Postadv settings saved.</p></div>';
 		}
 	}
@@ -70,6 +77,19 @@
 					<td>
 						<?php $postadv_latency_day = absint( get_option( 'postadv_opt_latency_day' ) ); ?>
 						<input type="number" name="postadv_ip_latency_day" id="postadv_ip_latency_day" <?php echo ( "on" == $postadv_latency ) ? '' : 'disabled'; ?> value="<?php echo $postadv_latency_day; ?>" min="1" max="99"> <i>( default is 1, likely to be 1 to 99 )</i>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label> Disable Entire Shortcodes(MCU)</label>
+					</th>
+					<td>
+						<?php
+							$postadv_mcu = get_option( 'postadv_opt_mcu' );
+							$checked = ( "on" == $postadv_mcu ) ? 'checked' : '';
+						?>
+						<input type="checkbox" name="postadv_ip_mcu" <?php echo $checked; ?>> Imp! Check only if you want to disable the shortcode otherwise leave unchecked.<br>
+						Ticking this will save your time to disable the shortcode rather than going into each post and removing the shortcode manually.
 					</td>
 				</tr>
 			</tbody>

@@ -1,5 +1,5 @@
 === Postadv ===
-Contributors: ugene
+Contributors: ugene, sachyya-sachet
 Donate link: #
 Tags: Google Adsense, google, plugin, adsense, insert adsense, adsense ad, ad code, adsense shortcode, insert ad, ads, adsense plugin, advertising
 Requires at least: 4.5
@@ -48,6 +48,12 @@ Yes, it is all based on the shortcode and it has to be used.
 2. Backend Post meta
 
 == Changelog ==
+= 1.0.1 =
+1. Added new MCU switch to disable all the shortcodes at once.
+2. Fix the latency time evaluation issue
+3. Fix the conflict issue with the save_post hook
+4. Fix the issue in overriding innter post meta script
+
 = 1.0.0 =
 First Version
 

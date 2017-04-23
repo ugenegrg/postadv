@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) 				    or die( 'No script kiddies please!' );
 /*------------------------------------------------------------------------*
  * Constants
  *------------------------------------------------------------------------*/
-defined( 'POSTADV_VERSION' ) 			or define( 'POSTADV_VERSION', '1.0' );
+defined( 'POSTADV_VERSION' ) 			or define( 'POSTADV_VERSION', '1.0.0' );
 defined( 'POSTADV_PLUGIN_DIR_PATH' )  	or define( 'POSTADV_PLUGIN_DIR_PATH', dirname(__FILE__) );
 defined( 'POSTADV_PLUGIN_FILE_PATH' ) 	or define( 'POSTADV_PLUGIN_FILE_PATH', __FILE__ );
 defined( 'POSTADV_PLUGIN_URL' ) 		or define( 'POSTADV_PLUGIN_URL', plugins_url( plugin_basename( dirname( __FILE__ ))));
